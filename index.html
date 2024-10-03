@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hedelmäpeli</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div class="header_columns">
+                <div class="column_left">
+                    <div id="voitonjako"></div>
+                </div>
+                <div class="column_center">
+                    <h1></h1>
+                </div>
+                <div class="column_right">
+                    <div id="lompakko">
+                        <p id="rahamaara">
+                            <img src="assets/kuvat/coin.png" alt="Kolikko" id="kolikko">
+                            <span id="raha">100€</span>
+                        </p>
+                    </div>
+                    <div id="panos">Panos 1€</div>
+                </div>
+            </div>
+        </header>
+        <div class="flex-container">
+            <!-- Tähän tulee hedelmäpelissä pyörivät kiekot (slotit) ja myös lukon kuvat -->
+        </div>
+        <div class="lockButtons">
+            <button class="locks" data-slot="0" id="lock1">Lukitse</button>
+            <button class="locks" data-slot="1" id="lock2">Lukitse</button>
+            <button class="locks" data-slot="2" id="lock3">Lukitse</button>
+            <button class="locks" data-slot="3" id="lock4">Lukitse</button>
+        </div>
+        <div class="gameOnButtons">
+            <button class="bet" id="asetaPanos">Panos</button>
+            <button class="spin" id="pelaa">Pelaa</button>
+            <p id="voittoTeksti"></p>
+        </div>
+        <p id="peliohje"></p>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>

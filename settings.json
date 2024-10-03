@@ -1,0 +1,46 @@
+{
+    "otsikko": "Hedelmäpeli",
+    "tausta": "assets/kuvat/red_background.png",
+    "Voitonjako": {
+        "apple": "assets/kuvat/apple.png",
+        "cherry": "assets/kuvat/cherry.png",
+        "pear": "assets/kuvat/pear.png",
+        "melon": "assets/kuvat/melon.png",
+        "number7": "assets/kuvat/number7.png",
+        "number7x3": "assets/kuvat/number7.png"
+    },
+    "slotit": [
+        {
+            "name": "Slot 1",
+            "image1": "assets/kuvat/apple.png",
+            "image2": "assets/kuvat/cherry.png",
+            "image3": "assets/kuvat/pear.png",
+            "image4": "assets/kuvat/melon.png",
+            "image5": "assets/kuvat/number7.png"
+        },
+        {
+            "name": "Slot 2",
+            "image1": "assets/kuvat/apple.png",
+            "image2": "assets/kuvat/cherry.png",
+            "image3": "assets/kuvat/pear.png",
+            "image4": "assets/kuvat/melon.png",
+            "image5": "assets/kuvat/number7.png"
+        },
+        {
+            "name": "Slot 3",
+            "image1": "assets/kuvat/apple.png",
+            "image2": "assets/kuvat/cherry.png",
+            "image3": "assets/kuvat/pear.png",
+            "image4": "assets/kuvat/melon.png",
+            "image5": "assets/kuvat/number7.png"
+        },
+        {
+            "name": "Slot 4",
+            "image1": "assets/kuvat/apple.png",
+            "image2": "assets/kuvat/cherry.png",
+            "image3": "assets/kuvat/pear.png",
+            "image4": "assets/kuvat/melon.png",
+            "image5": "assets/kuvat/number7.png"
+        }
+    ]
+}

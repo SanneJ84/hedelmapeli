@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: flex;
+    background-color: #a32828;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    color: #4bc513;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 10px;
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.header_columns {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.column_left {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+}
+
+.column_right {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-end;
+    flex-grow: 0.9;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #000000;
+    margin-bottom: 30px;
+}
+
+.flex-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.flex-item img {
+    width: 50%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-family: 'Luckiest Guy', cursive;
+    color: #ff0000;
+    font-size: 50px;
+    margin-left: 50%;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 10px;
+    color: #d1d418;
+    font-size: 20px;
+}
+
+.lockButtons {
+    display: flex;
+    margin-top: 5px;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.lockButtons button {
+    background-color: #eb0b0b;
+}
+
+.gameOnButtons {
+    display: flex;
+    margin-top: 5px;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.gameOnButtons #asetaPanos {
+    background-color: #e0d312;
+}
+
+button {
+    padding: 20px 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #52eb0c;
+    color: rgb(0, 0, 0);
+    border: #000000 1px solid;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#voitonjako {
+    margin: 0px;
+    display: flex;  
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;     
+    margin-left: 20px;
+    font-family: 'Luckiest Guy', cursive;
+    color: #13db0c;
+}
+
+#voitonjako div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#voitonjako img {
+    width: 30px; 
+    height: auto; 
+    margin-right: 10px;     
+}
+
+#kolikko {
+    width: 100px;  
+    height: auto; 
+    vertical-align: middle;
+    margin-right: 5px; 
+}
+
+#lompakko {
+    width: 300px;  
+    height: auto; 
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+#panos {
+    width: 150px;   
+    vertical-align:middle;
+    margin-right: 5px;
+    font: 2em 'Luckiest Guy', cursive;
+}
