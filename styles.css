@@ -2,9 +2,14 @@ body {
     margin: 0;
     justify-content: center;
     align-items: center;
+    background-image: url(assets/kuvat/dots-background-with-circle-lights_1035-6379.avif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Luckiest Guy', cursive;
+    background-color: #c21919;
     height: 100%;
     display: flex;
-    background-color: #a32828;
 }
 
 main {
@@ -19,39 +24,57 @@ header {
     display: flex;
     align-items: center;
     background-color: #000000;
+    border-bottom: #ffee00 3px solid;
     color: #4bc513;
     font-family: 'Luckiest Guy', cursive;
     font-size: 10px;
     padding: 20px;
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .header_columns {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
     width: 100%;
+    align-items: center; 
 }
 
 .column_left {
     display: flex;
-    flex-direction: column; 
-    align-items: flex-start;
+    justify-content: flex-start; 
+    flex: 1;
 }
 
-.column_right {
+.column_center {
     display: flex;
+    justify-content: center; 
+    flex: 1; 
+}
+
+#lompakko {
+    display: flex; 
+    justify-content: flex-end;
     flex-direction: column; 
     align-items: flex-end;
-    flex-grow: 0.9;
+    flex: 1;
+    margin-right: 50px;
+}
+
+#rahamaara {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 5px; 
+    font-family: 'Luckiest Guy', cursive;
+    margin-right: 30px;
 }
 
 .flex-container {
     display: flex;
     flex-direction: row;
     background-color: #000000;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 3px solid #D4AF37
 }
 
 .flex-item {
@@ -59,6 +82,7 @@ header {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid #D4AF37;
     padding-bottom: 30px;
     padding-top: 30px;
 }
@@ -75,7 +99,8 @@ h1 {
     font-family: 'Luckiest Guy', cursive;
     color: #ff0000;
     font-size: 50px;
-    margin-left: 50%;
+    margin-left: 10%;
+    max-width: 100%;
 }
 
 p {
@@ -121,13 +146,24 @@ button {
     cursor: pointer;
 }
 
+.peliohjeet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: 'Luckiest Guy', cursive;
+    color: #ecdd0c;
+    text-shadow: #000000 2px 2px 2px;
+}
+
 #voitonjako {
     margin: 0px;
     display: flex;  
     flex-direction: column;
     align-items: flex-start;
     margin-top: 10px;     
-    margin-left: 20px;
+    margin-left: 10px;
     font-family: 'Luckiest Guy', cursive;
     color: #13db0c;
 }
@@ -145,22 +181,100 @@ button {
 }
 
 #kolikko {
-    width: 100px;  
-    height: auto; 
-    vertical-align: middle;
-    margin-right: 5px; 
+    width: 70px;            
+    height: auto;                
 }
 
-#lompakko {
-    width: 300px;  
-    height: auto; 
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-#panos {
-    width: 150px;   
-    vertical-align:middle;
-    margin-right: 5px;
+#panos {  
+    display: flex;
+    margin-right: 50px;
     font: 2em 'Luckiest Guy', cursive;
 }
+
+@media screen and (max-width: 1280px) {
+    header {
+        padding: 15px; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+
+    .header_columns {
+        flex-direction: column; 
+        align-items: center; 
+    }
+
+    .column_left,
+    .lompakko {
+        width: 100%; 
+        align-items: center; 
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-left: 0;
+    }
+
+    p {
+        font-size: 16px; 
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    button {
+        padding: 15px 20px; 
+        border: none; 
+        border-radius: 10px; 
+        background-color: #52eb0c;
+        color: rgb(0, 0, 0);
+        font-size: 14px; 
+        cursor: pointer; 
+        width: 100%; 
+        max-width: 100px; 
+        margin: 10px 0; 
+        font-size: 1em;
+    }
+
+    .lockButtons {
+        display: flex;
+        margin-top: 5px;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .lockButtons button {
+        background-color: #eb0b0b;
+    }
+    
+    .gameOnButtons {
+        display: flex;
+        margin-top: 5px;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .gameOnButtons #asetaPanos {
+        background-color: #e0d312;
+    }
+}
+
+@media screen and (max-width: 447px){
+
+    button {
+        padding: 15px 20px; 
+        border: none; 
+        border-radius: 10px; 
+        background-color: #52eb0c;
+        color: rgb(0, 0, 0);
+        font-size: 14px; 
+        cursor: pointer; 
+        width: 100%; 
+        max-width: 70px; 
+        margin: 10px 0; 
+        font-size: 0.7em;
+    }
+}
+

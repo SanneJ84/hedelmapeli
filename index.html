@@ -20,33 +20,36 @@
                 <div class="column_center">
                     <h1></h1>
                 </div>
-                <div class="column_right">
-                    <div id="lompakko">
-                        <p id="rahamaara">
-                            <img src="assets/kuvat/coin.png" alt="Kolikko" id="kolikko">
-                            <span id="raha">100€</span>
-                        </p>
-                    </div>
-                    <div id="panos">Panos 1€</div>
+                <div id="lompakko">
+                    <p id="rahamaara">
+                        <img src="assets/kuvat/coin.png" alt="Kolikko" id="kolikko">
+                        <span id="raha">100€</span>
+                    </p>
+                    <span id="panos">Panos 1€</span>
                 </div>
             </div>
         </header>
-        <div class="flex-container">
-            <!-- Tähän tulee hedelmäpelissä pyörivät kiekot (slotit) ja myös lukon kuvat -->
+        <div class="main">
+            <div class="flex-container">
+                <!-- Tähän tulee hedelmäpelissä pyörivät kiekot (slotit) ja myös lukon kuvat -->
+            </div>
+            <div class="lockButtons">
+                <button class="locks" data-slot="0" id="lock1">Lukitse</button>
+                <button class="locks" data-slot="1" id="lock2">Lukitse</button>
+                <button class="locks" data-slot="2" id="lock3">Lukitse</button>
+                <button class="locks" data-slot="3" id="lock4">Lukitse</button>
+            </div>
+            <div class="gameOnButtons">
+                <button class="bet" id="asetaPanos">Panos</button>
+                <button class="spin" id="pelaa">Pelaa</button>
+                <p id="voittoTeksti"></p>
+            </div>
+            <div class="peliohjeet">
+                <p id="peliohje"></p>
+            </div>
         </div>
-        <div class="lockButtons">
-            <button class="locks" data-slot="0" id="lock1">Lukitse</button>
-            <button class="locks" data-slot="1" id="lock2">Lukitse</button>
-            <button class="locks" data-slot="2" id="lock3">Lukitse</button>
-            <button class="locks" data-slot="3" id="lock4">Lukitse</button>
-        </div>
-        <div class="gameOnButtons">
-            <button class="bet" id="asetaPanos">Panos</button>
-            <button class="spin" id="pelaa">Pelaa</button>
-            <p id="voittoTeksti"></p>
-        </div>
-        <p id="peliohje"></p>
     </main>
     <script src="main.js"></script>
 </body>
+
 </html>

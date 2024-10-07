@@ -1,5 +1,5 @@
 let JSONdata = null;
-let rahamaara = 50;
+let rahamaara = 50; 
 let panos = 1;
 let voitto = 0;
 let panosTeksti;
@@ -11,7 +11,7 @@ let lock3 = false;
 let lock4 = false;
 let isPlaying = false;
 
-const voitot = {
+const voitot = {                                                                                                   // Voittotaulukko
     cherry: [3, 6, 9, 12, 15],
     pear: [4, 8, 12, 16, 20],
     melon: [5, 10, 15, 20, 25],
@@ -20,12 +20,13 @@ const voitot = {
     number7x3: [5, 10, 15, 20, 25]
 };
 
-window.addEventListener('load', function () {
+window.addEventListener('load', function () {   
 
-    document.getElementById('peliohje').textContent = "Aseta panos ja paina 'Pelaa' -nappia!"; // Peliohjeet alussa
+    document.getElementById('peliohje').textContent = "Aseta panos ja paina 'Pelaa' -nappia!";                     // Peliohjeet alussa
     peliohje.style.color = "yellow";
     peliohje.style.fontSize = "20px";
     peliohje.style.marginBottom = "20px";
+    peliohje.aling = "center";
     panosTeksti = document.getElementById('panos');
     rahamaaraTeksti = document.getElementById('raha');
     voittoTeksti = document.getElementById('voittoTeksti');
@@ -76,55 +77,65 @@ function otaRahaa() {
             voittoTeksti.textContent = '';                                                      // Tyhjennetään voittoilmoitus
             return true;
         } else {                                                                                // Jos rahaa ei ole tarpeeksi
-            voittoTeksti.textContent = 'Sinulla ei ole tarpeeksi rahaa!';                        // Näytetään ilmoitus
+            voittoTeksti.textContent = 'Sinulla ei ole tarpeeksi rahaa!';                       // Näytetään ilmoitus
         }
     } else {                                                                                    // jos joku sloteista on lukittu, ei vähennetä rahaa
         return true;
     }
 }
 
-function lisaaRahaa(randomImages) {
+// Lisää voitetut rahat lompakkoon
+function lisaaRahaa(randomImages) { 
 
-    if (voitot[randomImages]) {
-        voitto = voitot[randomImages][panos - 1];
-        rahamaara += voitto;
+    if (voitot[randomImages]) { 
+        voitto = voitot[randomImages][panos - 1];   
+        rahamaara += voitto;    
+        console.log(`Voitit ${voitto}€!`);
     }
 }
 
-function getRandomImages(slot) {
-    const images = [];
-    for (let i = 1; i <= 5; i++) {
-        images.push(slot[`image${i}`]);
+// Arpoo satunnaiset kuvat slotteihin
+function getRandomImages(slot) {                                                       
+    const images = [];                                                                  
+    for (let i = 1; i <= 5; i++) {                                                      
+        images.push(slot[`image${i}`]);                                                 
     }
 
-    const randomImages = [];
-    for (let i = 0; i < 3; i++) {
-        const randomIndex = Math.floor(Math.random() * images.length);
-        randomImages.push(images[randomIndex]);
+    const randomImages = [];                                                                                                   
+    for (let i = 0; i < 3; i++) {                                                                           
+        const randomIndex = Math.floor(Math.random() * images.length);                              
+        randomImages.push(images[randomIndex]);                                                     
     }
 
     return randomImages;
 }
 
+// Lukitsee slotin 
 function lukitseSlotti(index) {
 
-    if (isPlaying) {
+    if (isPlaying) {                    
         if (!eval(`lock${index}`)) {
             eval(`lock${index} = true`);
             document.getElementById(`lock${index}`).textContent = 'Lukittu';
             document.getElementById(`lock${index}`).style.backgroundColor = 'orange';
+            console.log(`Slot ${index} lukittu!`);
         } else {
             eval(`lock${index} = false`);
             document.getElementById(`lock${index}`).textContent = 'Lukitse';
             document.getElementById(`lock${index}`).style.backgroundColor = 'red';
+            console.log(`Slot ${index} vapautettu!`);
         }
     }
 }
 
+// Pelaa peliä
 function pelaaPeli() {
-    if (!isPlaying) {
-        if (rahamaara >= panos) {
-            otaRahaa();
+
+    console.log("Pyöräytys!");
+
+    if (!isPlaying) {       
+        if (rahamaara >= panos) {    
+            otaRahaa();     
             arvoSlotit();
             isPlaying = true;
             peliohje.textContent = "";
@@ -132,10 +143,18 @@ function pelaaPeli() {
             voittoTeksti.textContent = 'Sinulla ei ole tarpeeksi rahaa!';
         }
     } else {
+        // Tarkistetaan, että vähintään yksi slotti on lukittu ennen toista pyöräytystä
+        if (!lock1 && !lock2 && !lock3 && !lock4) {
+            peliohje.textContent = 'Lukitse vähintään yksi slotti!';
+            peliohje.style.color = "yellow";
+            return; 
+        }
+        
         arvoLukitsemattomatSlotit();
         vapautaSlotit();
         isPlaying = false;
         peliohje.textContent = "Pyöräytä uudestaan!";
+        console.log("Pyöräytä uudestaan!");
     }
 
     tarkistaVoitto();
@@ -154,25 +173,26 @@ function vapautaSlotit() {
     }
 }
 
+// Arpoo satunnaiset kuvat slotteihin
 function arvoSlotit() {
 
-    let flexContainer = document.querySelector('.flex-container');
+    let flexContainer = document.querySelector('.flex-container');      
     let slotItems = flexContainer.querySelectorAll('.flex-item');
 
-    JSONdata.slotit.forEach((slot, index) => {
-        let flexItem = slotItems[index];
-        const images = getRandomImages(slot);
-        flexItem.innerHTML = '';
+    JSONdata.slotit.forEach((slot, index) => {                                      // Käydään läpi jokainen slot ja arvotaan niille kuvat
+        let flexItem = slotItems[index];                                            // Haetaan slotin kuvat 
+        const images = getRandomImages(slot);                                       // Arvotaan kuvat
+        flexItem.innerHTML = '';                                                        
 
-        images.forEach((src, imgIndex) => {
-            let img = document.createElement('img');
-            img.src = src;
+        images.forEach((src, imgIndex) => {                                         // Lisätään kuvat slotteihin 
+            let img = document.createElement('img');                                
+            img.src = src;  
             img.alt = `${slot.name} - Image ${imgIndex + 1}`;
-            flexItem.appendChild(img);
+            flexItem.appendChild(img);  
         });
 
         // Animaatio
-        let slotImages = flexItem.querySelectorAll('img');
+        let slotImages = flexItem.querySelectorAll('img');  
         gsap.fromTo(slotImages, { y: -100 }, {
             y: 0,
             stagger: 0.1,
@@ -182,6 +202,7 @@ function arvoSlotit() {
     });
 }
 
+// Arpoo satunnaiset kuvat slotteihin jotka eivät ole lukittuja
 function arvoLukitsemattomatSlotit() {
 
     let flexContainer = document.querySelector('.flex-container');
@@ -212,13 +233,15 @@ function arvoLukitsemattomatSlotit() {
     });
 }
 
+// Tarkistaa voiton
 function tarkistaVoitto() {
     const slots = Array.from(document.querySelectorAll('.flex-item img'));
     const rows = 3;
 
-    // Tyhjennetään edellinen voittoilmoitus
     const voittoTeksti = document.getElementById('voittoTeksti');
     voittoTeksti.textContent = '';
+
+    let totalWin = 0; 
 
     // Tarkistetaan jokainen rivi
     for (let rivi = 0; rivi < rows; rivi++) {
@@ -227,63 +250,60 @@ function tarkistaVoitto() {
             rivinKuvat.push(slots[slot + rivi]?.src);
         }
 
-        console.log(`Rivi: ${rivi}, Kuvia: ${rivinKuvat}`);
-
         // Tarkistetaan, ovatko kaikki kuvat samoja
         const kaikkiSamoja = rivinKuvat.every(kuva => kuva === rivinKuvat[0]);
 
-        if (kaikkiSamoja && rivinKuvat[0]) {                                                    // Jos kaikki kuvat ovat samoja, voitto
-            const voittavaKuva = rivinKuvat[0].split('/').pop().split('.')[0];                  // Hae kuvan nimi
-            const voittoSumma = voitot[voittavaKuva][panos - 1];                                // Hae voitto taulukosta panoksen mukaan
-            rahamaara += voittoSumma;                                                           // Lisää voitto rahamäärään
-            rahamaaraTeksti.textContent = `Rahaa: ${rahamaara}€`;                               // Päivitä rahamäärä
-            voittoTeksti.textContent = `VOITIT! ${voittoSumma}€`;                               // Näytä voittoilmoitus
-            voittoTeksti.style.color = "yellow";
-            voittoTeksti.style.fontSize = "20px";
-            setTimeout(() => {
-                voittoTeksti.textContent = '';
-            }, 3000);
-            peliohje.textContent = "Pyöräytä uudestaan!";
-
-            return;
+        if (kaikkiSamoja && rivinKuvat[0]) {  
+            const voittavaKuva = rivinKuvat[0].split('/').pop().split('.')[0];
+            const voittoSumma = voitot[voittavaKuva][panos - 1];
+            totalWin += voittoSumma;          
+            continue; 
         }
 
-
-        // Jos kolme ensimmäistä kuvaa ovat numero 7 
+        // Tarkistetaan, onko kolme ensimmäistä number7 ja viimeinen eri
         if (rivinKuvat[0]?.includes('number7') && rivinKuvat[1]?.includes('number7') && rivinKuvat[2]?.includes('number7')) {
             const voittoSumma = voitot["number7x3"][panos - 1];
-            rahamaara += voittoSumma;
-            rahamaaraTeksti.textContent = `Rahaa: ${rahamaara}€`;
-            voittoTeksti.textContent = `VOITIT! ${voittoSumma}€`;
-            setTimeout(() => {
-                voittoTeksti.textContent = '';
-            }, 3000);
-            peliohje.textContent = "Pyöräytä uudestaan!";
-
-            return;
+            totalWin += voittoSumma;           
+            continue; 
         }
+    }
+
+    if (totalWin > 0) {
+        rahamaara += totalWin;
+        rahamaaraTeksti.textContent = `Rahaa: ${rahamaara}€`;
+        voittoTeksti.textContent = `VOITIT! ${totalWin}€`;
+        voittoTeksti.style.color = 'yellow';
+        voittoTeksti.style.fontSize = '20px';
+        voittoTeksti.style.textShadow = '2px 2px 2px black'; 
+        console.log(`Voitit ${totalWin}€!`);
+        setTimeout(() => {
+            voittoTeksti.textContent = '';
+        }, 3000);
     }
 }
 
-function getContent() {
-    document.title = JSONdata.otsikko;                                      // Aseta sivun otsikoksi JSON-tiedostosta haettu otsikko
-    document.querySelector('h1').textContent = JSONdata.otsikko;            // Aseta h1-elementin tekstiksi JSON-tiedostosta haettu otsikko
 
-    let flexContainer = document.querySelector('.flex-container');          // Hae flex-container
+
+// Hakee JSON-tiedoston sisällön
+function getContent() {
+    document.title = JSONdata.otsikko;                                                          
+    document.querySelector('h1').textContent = JSONdata.otsikko;            
+
+    let flexContainer = document.querySelector('.flex-container');          
     let voittotaulu = document.getElementById('voitonjako');
 
     flexContainer.innerHTML = '';
 
     // Slotit flex-containeriin
-    JSONdata.slotit.forEach(slot => {
-        let flexItem = document.createElement('div');
-        flexItem.classList.add('flex-item');
-        flexContainer.appendChild(flexItem);
+    JSONdata.slotit.forEach(slot => {                                                           // Käydään läpi jokainen slot ja lisätään ne flex-containeriin
+        let flexItem = document.createElement('div');                                           // Luodaan div-elementti
+        flexItem.classList.add('flex-item');                                                    // Lisätään div-elementille luokka 'flex-item'
+        flexContainer.appendChild(flexItem);                                                    // Lisätään div-elementti flex-containeriin
 
-        const randomImages = getRandomImages(slot);
+        const randomImages = getRandomImages(slot);                                             // Arvotaan satunnaiset kuvat slotille
 
-        randomImages.forEach((src, index) => {
-            let img = document.createElement('img');
+        randomImages.forEach((src, index) => {                                                  // Lisätään kuvat slotteihin 
+            let img = document.createElement('img');    
             img.src = src;
             img.alt = `${slot.name} - Image ${index + 1}`;
             flexItem.appendChild(img);
@@ -304,7 +324,7 @@ function getContent() {
         "cherry": "1€ = 3€, 2€ = 6€, 3€ = 9€, 4€ = 12€, 5€ = 15€"
     };
 
-    // Toistetaan jokainen hedelmä ja lisätään myös rivi kolmella numerolla 7
+    // Lisätään voitonjakokuvat ja voitonjakotekstit voitonjako-diviin 
     for (const [hedelma, kuva] of Object.entries(voitonjako)) {
         let div = document.createElement('div');
         let img = document.createElement('img');
@@ -314,9 +334,9 @@ function getContent() {
         div.appendChild(img);
         voittotaulu.appendChild(div);
 
-        // Jos kyseessä on "number7x3", näytetään vain kolme kuvaa
+        // Kolme number7 kuvaa
         if (hedelma === "number7x3") {
-            for (let i = 1; i < 3; i++) { // Vain 2 lisäkuvaa, jolloin yhteensä 3
+            for (let i = 1; i < 3; i++) { 
                 let imgCopy = document.createElement('img');
                 imgCopy.src = kuva;
                 imgCopy.alt = `${hedelma} kuva`;
@@ -327,8 +347,8 @@ function getContent() {
             marginDiv.style.marginLeft = '40px';
             div.appendChild(marginDiv);
         } else {
-            // Muut hedelmät ja neljä numeroa 7
-            for (let i = 1; i < 4; i++) { // Kolme lisäkuvaa, jolloin yhteensä 4
+            // Muut hedelmät ja neljä number7
+            for (let i = 1; i < 4; i++) { 
                 let imgCopy = document.createElement('img');
                 imgCopy.src = kuva;
                 imgCopy.alt = `${hedelma} kuva`;
