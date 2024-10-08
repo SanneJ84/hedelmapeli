@@ -304,9 +304,7 @@ function tarkistaVoitto() {
 }
 
 // Hakee JSON-tiedoston sisällön
-function getContent() {
-    document.title = JSONdata.otsikko;                                                          
-    document.querySelector('h1').textContent = JSONdata.otsikko;            
+function getContent() {          
 
     let flexContainer = document.querySelector('.flex-container');          
     let voittotaulu = document.getElementById('voitonjako');
