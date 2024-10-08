@@ -30,20 +30,30 @@ window.addEventListener('load', function () {
     panosTeksti = document.getElementById('panos');
     rahamaaraTeksti = document.getElementById('raha');
     voittoTeksti = document.getElementById('voittoTeksti');
-
-    panosTeksti.textContent = `Panos: ${panos}€`;
     rahamaaraTeksti.textContent = `Rahaa: ${rahamaara}€`;
+    panosTeksti.textContent = `Panos: ${panos}€`;
 
     loadData();
-
 
     // Klikkaustapahtumat
     document.getElementById('asetaPanos').addEventListener('click', panoksenValinta);
     document.getElementById('pelaa').addEventListener('click', pelaaPeli);
-    document.getElementById('lock1').addEventListener('click', () => lukitseSlotti(1));
-    document.getElementById('lock2').addEventListener('click', () => lukitseSlotti(2));
-    document.getElementById('lock3').addEventListener('click', () => lukitseSlotti(3));
-    document.getElementById('lock4').addEventListener('click', () => lukitseSlotti(4));
+    document.getElementById('lock1').addEventListener('click', () => {
+        lukitseSlotti(1);
+        buttonSound.play();
+    });
+    document.getElementById('lock2').addEventListener('click', () => {
+        lukitseSlotti(2);
+        buttonSound.play();
+    });
+    document.getElementById('lock3').addEventListener('click', () => {
+        lukitseSlotti(3);
+        buttonSound.play();
+    });
+    document.getElementById('lock4').addEventListener('click', () => {
+        lukitseSlotti(4);
+        buttonSound.play();
+    });
 });
 
 function loadData() {                                                                           // Lataa JSON-tiedosto
@@ -52,18 +62,33 @@ function loadData() {                                                           
         JSONdata = JSON.parse(this.responseText);                                               // Parsi JSON-tiedosto
         console.log(JSONdata);                                                                  // Tulosta JSON-tiedoston sisältö konsoliin
         getContent();                                                                           // Hae JSON-tiedoston sisältö
+        loadSounds(JSONdata.aanet);                                                             // Lataa ääniefektit JSON-tiedostosta
     }
     ajax.open('GET', 'settings.json', true);                                                    // Avaa tiedosto
     ajax.send();                                                                                // Lähetä pyyntö
 }
 
+// Lataa ääniefektit JSON-tiedostosta
+function loadSounds(soundPaths) {
+    betSound = new Audio(soundPaths.betSound);
+    spinningSound = new Audio(soundPaths.spinningSound);
+    winSound = new Audio(soundPaths.winSound);
+    buttonSound = new Audio(soundPaths.buttonSound);
+}
+
+
 function panoksenValinta() {
-    if (panos < 5) {                                                                            // Panos voi olla maksimissaan 5€
-        panos++;
-    } else {
-        panos = 1;
+
+    if (!isPlaying) {  
+        if (panos < 5) {
+            panos++;
+        } else {
+            panos = 1;
+        }
+        panosTeksti.textContent = `Panos: ${panos}€`;
+        betSound.play();
+        console.log(`Panos asetettu: ${panos}€`);
     }
-    panosTeksti.textContent = `Panos: ${panos}€`;
 }
 
 function otaRahaa() {
@@ -131,14 +156,16 @@ function lukitseSlotti(index) {
 // Pelaa peliä
 function pelaaPeli() {
 
-    console.log("Pyöräytys!");
+    console.log("Pyöräytetty!");
 
     if (!isPlaying) {       
         if (rahamaara >= panos) {    
             otaRahaa();     
             arvoSlotit();
             isPlaying = true;
-            peliohje.textContent = "";
+            spinningSound.play();
+            peliohje.textContent = "Lukitse ja pyöräytä!";
+            console.log("Lukitse ja pyöräytä!");
         } else {
             voittoTeksti.textContent = 'Sinulla ei ole tarpeeksi rahaa!';
         }
@@ -153,6 +180,7 @@ function pelaaPeli() {
         arvoLukitsemattomatSlotit();
         vapautaSlotit();
         isPlaying = false;
+        spinningSound.play();
         peliohje.textContent = "Pyöräytä uudestaan!";
         console.log("Pyöräytä uudestaan!");
     }
@@ -236,53 +264,44 @@ function arvoLukitsemattomatSlotit() {
 // Tarkistaa voiton
 function tarkistaVoitto() {
     const slots = Array.from(document.querySelectorAll('.flex-item img'));
-    const rows = 3;
-
     const voittoTeksti = document.getElementById('voittoTeksti');
     voittoTeksti.textContent = '';
 
-    let totalWin = 0; 
+    let totalWin = 0;
+    const rows = 3;
 
-    // Tarkistetaan jokainen rivi
     for (let rivi = 0; rivi < rows; rivi++) {
-        const rivinKuvat = [];
-        for (let slot = 0; slot < slots.length; slot += rows) {
-            rivinKuvat.push(slots[slot + rivi]?.src);
-        }
-
-        // Tarkistetaan, ovatko kaikki kuvat samoja
-        const kaikkiSamoja = rivinKuvat.every(kuva => kuva === rivinKuvat[0]);
-
-        if (kaikkiSamoja && rivinKuvat[0]) {  
+        const rivinKuvat = slots.filter((_, i) => i % rows === rivi).map(img => img.src);
+        const kaikkiSamoja = rivinKuvat.every(src => src === rivinKuvat[0] && src);
+        if (kaikkiSamoja) {
             const voittavaKuva = rivinKuvat[0].split('/').pop().split('.')[0];
-            const voittoSumma = voitot[voittavaKuva][panos - 1];
-            totalWin += voittoSumma;          
-            continue; 
+            totalWin += voitot[voittavaKuva]?.[panos - 1] || 0;
+            continue;
         }
-
-        // Tarkistetaan, onko kolme ensimmäistä number7 ja viimeinen eri
-        if (rivinKuvat[0]?.includes('number7') && rivinKuvat[1]?.includes('number7') && rivinKuvat[2]?.includes('number7')) {
-            const voittoSumma = voitot["number7x3"][panos - 1];
-            totalWin += voittoSumma;           
-            continue; 
+        if (rivinKuvat.slice(0, 3).every(src => src.includes('number7'))) {
+            totalWin += voitot["number7x3"]?.[panos - 1] || 0;
         }
     }
 
     if (totalWin > 0) {
         rahamaara += totalWin;
-        rahamaaraTeksti.textContent = `Rahaa: ${rahamaara}€`;
+        document.getElementById('raha').textContent = `Rahaa: ${rahamaara}€`;
         voittoTeksti.textContent = `VOITIT! ${totalWin}€`;
         voittoTeksti.style.color = 'yellow';
         voittoTeksti.style.fontSize = '20px';
-        voittoTeksti.style.textShadow = '2px 2px 2px black'; 
-        console.log(`Voitit ${totalWin}€!`);
-        setTimeout(() => {
-            voittoTeksti.textContent = '';
-        }, 3000);
+        voittoTeksti.style.textShadow = '2px 2px 2px black';
+        winSound.play();
+
+        console.log(`Voitit ${totalWin}€! Pyöräytä uudestaan!`);
+        
+        // Aloita peli alusta voiton jälkeen
+        isPlaying = false; 
+        vapautaSlotit(); 
+        setTimeout(() => { voittoTeksti.textContent = ''; }, 3000); 
+    } else {
+        console.log('Ei voittoa!');
     }
 }
-
-
 
 // Hakee JSON-tiedoston sisällön
 function getContent() {

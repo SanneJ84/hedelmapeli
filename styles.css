@@ -74,7 +74,9 @@ header {
     background-color: #000000;
     margin-bottom: 20px;
     border-radius: 10px;
-    border: 3px solid #D4AF37
+    border: 3px solid #D4AF37;
+    overflow: hidden;
+    position: relative;
 }
 
 .flex-item {
